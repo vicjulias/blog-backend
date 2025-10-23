@@ -15,7 +15,6 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// Prevent OverwriteModelError
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 module.exports = User;

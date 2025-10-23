@@ -105,7 +105,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     if (!post.author || post.author.toString() !== req.userId)
       return res.status(401).json({ msg: "Unauthorized" });
 
-    await post.deleteOne(); // ✅ safer than remove()
+    await post.deleteOne(); 
     res.json({ msg: "Post deleted successfully" });
   } catch (err) {
     console.error("DELETE /posts/:id error:", err);

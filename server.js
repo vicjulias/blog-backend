@@ -8,10 +8,10 @@ dotenv.config();
 const app = express();
 
 // ---------- MIDDLEWARE ----------
-app.use(express.json()); // parse JSON
-app.use(express.urlencoded({ extended: true })); // parse form-data
-app.use(cors()); // allow cross-origin requests
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads'))); // serve images
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors()); 
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads'))); 
 
 // ---------- ROUTES ----------
 const authRoutes = require('./routes/auth');
@@ -23,7 +23,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 
 // ---------- MONGODB CONNECTION ----------
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {

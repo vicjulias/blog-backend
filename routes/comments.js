@@ -18,11 +18,14 @@ router.post('/:postId', authMiddleware, async (req, res) => {
     post.comments.push({ text, author: req.userId });
     await post.save();
 
-    const updatedPost = await Post.findById(req.params.postId)
-      .populate('author', 'username')
-      .populate('comments.author', 'username');
+    // Reload the post and return the newly added comment with author.username
+    const updatedPost = await Post.findById(req.params.postId).populate(
+      'comments.author',
+      'username'
+    );
 
-    res.json(updatedPost);
+    const newComment = updatedPost.comments[updatedPost.comments.length - 1];
+    res.json({ comment: newComment });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');

@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.userId; // ✅ make sure userId is available
+    req.userId = decoded.userId; // make sure userId is available
     next();
   } catch (err) {
     console.error("Auth middleware error:", err);
