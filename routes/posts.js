@@ -46,19 +46,24 @@ router.get("/:id", async (req, res) => {
 });
 
 // CREATE new post
+// Support multipart/form-data (with optional image) and JSON bodies
 router.post("/", authMiddleware, upload.single("image"), async (req, res) => {
-  const { title, content } = req.body;
+  console.log('POST /api/posts body:', req.body);
+  const { title, content } = req.body || {};
   if (!title || !content)
     return res.status(400).json({ msg: "Title and content required" });
 
   try {
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : req.body.image;
+
     const newPost = new Post({
       title,
       content,
       author: req.userId,
-      image: req.file ? `/uploads/${req.file.filename}` : undefined,
+      image: imagePath,
     });
 
+    console.log('New Post object:', newPost);
     await newPost.save();
     const savedPost = await Post.findById(newPost._id).populate(
       "author",
